@@ -1,0 +1,16 @@
+data:
+
+address owner
+
+mapping of better -> better -> win/loss, struct of matches, etc
+
+matches: description, teams, time, result
+
+functions:
+
+constructor
+add_match
+add_better
+decide_match
+best_better
+decide_winner
