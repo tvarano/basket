@@ -19,8 +19,6 @@ contract PoolBet
 
     mapping (address => Better) public betters;
 
-    Match[] public matches;
-
     constructor () {
         owner = msg.sender;
     }
@@ -34,4 +32,18 @@ contract PoolBet
     }
 
     function decideMatch
+
+
+    // all of the matches for the week
+    mapping (int => Match) public matches;
+
+    function resetWeek() {
+        // clear the hash
+
+        // reset better remaining bets
+    }
+
+    function findWinner() {
+        // iterate through users, find one with the most 
+    }
 }
