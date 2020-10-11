@@ -5,8 +5,8 @@ contract PoolBet
     address public owner; // Creator of smart contract, can decide outcomes/add users etc.
 
     struct Better {
-        uint wins;
-        uint losses;
+        uint score;
+        uint remaining_bets;
     }
 
     struct Match {
@@ -19,5 +19,16 @@ contract PoolBet
 
     mapping (address => Better) public betters;
 
-    Match[] public matches;
+    // all of the matches for the week
+    mapping (int => Match) public matches;
+
+    function resetWeek() {
+        // clear the hash
+
+        // reset better remaining bets
+    }
+
+    function findWinner() {
+        // iterate through users, find one with the most 
+    }
 }
