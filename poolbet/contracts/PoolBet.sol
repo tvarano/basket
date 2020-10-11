@@ -19,6 +19,21 @@ contract PoolBet
 
     mapping (address => Better) public betters;
 
+    constructor () {
+        owner = msg.sender;
+    }
+
+    function addMatch() {
+        
+    }
+
+    function placeBet() {
+
+    }
+
+    function decideMatch
+
+
     // all of the matches for the week
     mapping (int => Match) public matches;
 
