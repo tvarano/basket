@@ -33,18 +33,29 @@ contract PoolBet
     }
 
     function addMatch(string json) {
-        require(msg.sender == owner)
+        require(msg.sender == owner, "Only owners can add matches.")
 
         parseMatch(json)
     }
 
     function placeBet(address bettor, string matchid, string team) {
+        bettor = bettors[bettor]
+
+        current_match = matches[matchid]
+
+        if (compareStrings(team, current_match.team1)) {
+            current_match.bettor1.push(bettor)
+        } else if (compareStrings(team, current_match.team2)) {
+            current_match.bettor2.push(bettor)
+        } else {
+            revert("Invalid team.")
+        }
     }
 
     function decideMatch(string  matchid, string winner) {
-        require(msg.sender == owner)
+        require(msg.sender == owner, "Only owner can decide matches.")
 
-        if (winner == matches[matchid].team1) {
+        if (compareStrings(winner, matches[matchid].team1)) {
             address[] win_arr = matches[matchid].bettor1;
         } else {
             address[]  win_arr = matches[matchid].bettor2;
@@ -65,4 +76,8 @@ contract PoolBet
     function findWinner() {
         // iterate through users, find one with the most 
     }
+}
+
+function compareStrings(string memory a, string memory b) public view returns (bool) {
+    return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
 }
