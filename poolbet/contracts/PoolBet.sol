@@ -1,38 +1,64 @@
-pragma solidity ^0.8.0
+pragma solidity ^0.7.3
 
 contract PoolBet
 {
     address public owner; // Creator of smart contract, can decide outcomes/add users etc.
 
-    struct Bettor {
+    struct Better {
+        string Name;
         uint score;
-        uint remaining_bets;
+        uint remaining_bets; 
     }
 
     struct Match {
-        bytes32 game;
-        bytes32 team1;
+        string team1;
         uint odd1;
-        bytes32 team2;
+        string team2;
         uint odd2;
+        address[] bettor1;
+        address[] bettor2;
     }
 
-    mapping (address => Bettor) public bettors;
+    function genMatchHash(Match m) {
+        return string(abi.encodePacked(m.team1, m.team2))
+    }
 
-    Match[] public matches;
+    // all betters in the game
+    mapping (address => Better) public bettors;
+    // all of the matches for the week
+    mapping (string => Match) public matches;
 
     constructor () {
         owner = msg.sender;
     }
 
-    function addMatch() {
-        require msg.sender == owner;
-
+    function addMatch(string json) {
+        parseMatch(json)
     }
 
-    function placeBet() {
-
+    function placeBet(address bettor, string matchid, string team) {
     }
 
-    function decideMatch
+    function decideMatch(string  matchid, string winner) {
+        if (winner == matches[matchid].team1) {
+            address[] win_arr = matches[matchid].bettor1;
+        } else {
+            address[]  win_arr = matches[matchid].bettor2;
+        }
+
+        uint arrayLength = win_arr.length;
+        for (uint i=0; i<arrayLength; i++) {
+            bettors[win_arr[i]].score ++;
+        }
+    }
+
+    function resetWeek() {
+        // clear the hash
+
+        // reset better remaining bets
+    }
+
+    function findWinner() {
+        // iterate through users, find one with the most 
+    }
 }
