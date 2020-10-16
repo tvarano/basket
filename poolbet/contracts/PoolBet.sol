@@ -33,6 +33,8 @@ contract PoolBet
     }
 
     function addMatch(string json) {
+        require(msg.sender == owner)
+
         parseMatch(json)
     }
 
@@ -40,6 +42,8 @@ contract PoolBet
     }
 
     function decideMatch(string  matchid, string winner) {
+        require(msg.sender == owner)
+
         if (winner == matches[matchid].team1) {
             address[] win_arr = matches[matchid].bettor1;
         } else {
