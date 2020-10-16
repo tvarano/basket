@@ -35,6 +35,7 @@ contract PoolBet
     }
 
     function placeBet(address bettor, string matchid, string team) {
+        
     }
 
     function decideMatches(string json) {
