@@ -46,17 +46,21 @@ contract PoolBet
         parseMatch(json)
     }
 
-    function placeBet(address bettor, string matchid, string team) {
-        bettor = bettors[bettor]
+    function placeBet(string matchid, string team) {
+        bettor = msg.sender;
 
         current_match = matches[matchid]
 
-        if (compareStrings(team, current_match.team1)) {
+        if bettors[bettor] != address(0x0) {
+            if (compareStrings(team, current_match.team1)) {
             current_match.bettor1.push(bettor)
-        } else if (compareStrings(team, current_match.team2)) {
-            current_match.bettor2.push(bettor)
+            } else if (compareStrings(team, current_match.team2)) {
+                current_match.bettor2.push(bettor)
+            } else {
+                revert("Invalid team.")
+            }
         } else {
-            revert("Invalid team.")
+            revert("This address is not a bettor.")
         }
     }
 
