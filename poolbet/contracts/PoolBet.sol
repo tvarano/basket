@@ -25,6 +25,7 @@ contract PoolBet
 
     // all betters in the game
     mapping (address => Bettor) public bettors;
+    address[] addresses;
     // all of the matches for the week
     mapping (string => Match) public matches;
 
@@ -75,6 +76,18 @@ contract PoolBet
 
     function findWinner() {
         // iterate through users, find one with the most 
+        uint address_length = addresses.length;
+        address max_address;
+        uint max = 0;
+
+        for (uint i=0; i<address_length; i++) {
+            if (bettors[addresses[i]].max > max) {
+                max_address = addresses[i];
+                max = bettors[addresses[i]].score;
+            }
+        }
+
+        return max_address;
     }
 
     function compareStrings(string memory a, string memory b) public view returns (bool) {
