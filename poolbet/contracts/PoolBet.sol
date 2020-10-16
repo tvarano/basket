@@ -5,7 +5,7 @@ contract PoolBet
     address public owner; // Creator of smart contract, can decide outcomes/add users etc.
 
     struct Bettor {
-        string Name;
+        string name;
         uint score;
         uint remaining_bets; 
     }
@@ -25,6 +25,7 @@ contract PoolBet
 
     // all betters in the game
     mapping (address => Bettor) public bettors;
+    address[] addresses;
     // all of the matches for the week
     mapping (string => Match) public matches;
 
@@ -32,8 +33,15 @@ contract PoolBet
         owner = msg.sender;
     }
 
+    function addBetter(address add, string nme) {
+        require (msg.sender == owner, "Only the owner can add pool members.");
+
+        addresses.push(add);
+        bettors[add] = {name: nme, score: 0, remaining_bets: 1}
+    }
+
     function addMatch(string json) {
-        require(msg.sender == owner, "Only owners can add matches.")
+        require(msg.sender == owner, "Only owners can add matches.");
 
         parseMatch(json)
     }
@@ -75,6 +83,18 @@ contract PoolBet
 
     function findWinner() {
         // iterate through users, find one with the most 
+        uint address_length = addresses.length;
+        address max_address;
+        uint max = 0;
+
+        for (uint i=0; i<address_length; i++) {
+            if (bettors[addresses[i]].max > max) {
+                max_address = addresses[i];
+                max = bettors[addresses[i]].score;
+            }
+        }
+
+        return max_address;
     }
 
     function compareStrings(string memory a, string memory b) public view returns (bool) {
