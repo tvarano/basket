@@ -1,27 +1,28 @@
-pragma solidity ^0.5.0
+pragma solidity ^0.7.3
 
 contract PoolBet
 {
     address public owner; // Creator of smart contract, can decide outcomes/add users etc.
 
     struct Better {
+        string Name;
         uint score;
         uint remaining_bets; 
     }
 
     struct Match {
-        bytes32 team1;
+        string team1;
         uint odd1;
-        bytes32 team2;
+        string team2;
         uint odd2;
     }
 
-    function genMatchHash(Match => m) {
+    function genMatchHash(Match m) {
         return string(abi.encodePacked(m.team1, m.team2))
     }
 
     // all betters in the game
-    mapping (address => Better) public betters;
+    mapping (address => Better) public bettors;
     // all of the matches for the week
     mapping (string => Match) public matches;
 
@@ -29,16 +30,16 @@ contract PoolBet
         owner = msg.sender;
     }
 
-    function addMatch(address) {
+    function addMatch(string json) {
+        parseMatch(json)
+    }
+
+    function placeBet(address bettor, string matchid, string team) {
+    }
+
+    function decideMatches(string json) {
         
     }
-
-    function placeBet() {
-
-    }
-
-    function decideMatch
-
 
 
     function resetWeek() {
