@@ -15,6 +15,8 @@ contract PoolBet
         uint odd1;
         string team2;
         uint odd2;
+        address[] bettor1;
+        address[] bettor2;
     }
 
     function genMatchHash(Match m) {
@@ -37,10 +39,18 @@ contract PoolBet
     function placeBet(address bettor, string matchid, string team) {
     }
 
-    function decideMatches(string json) {
-        
-    }
+    function decideMatch(string  matchid, string winner) {
+        if (winner == matches[matchid].team1) {
+            address[] win_arr = matches[matchid].bettor1;
+        } else {
+            address[]  win_arr = matches[matchid].bettor2;
+        }
 
+        uint arrayLength = win_arr.length;
+        for (uint i=0; i<arrayLength; i++) {
+            bettors[win_arr[i]].score ++;
+        }
+    }
 
     function resetWeek() {
         // clear the hash
