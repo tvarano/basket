@@ -1,10 +1,10 @@
-pragma solidity ^0.5.0
+pragma solidity ^0.8.0
 
 contract PoolBet
 {
     address public owner; // Creator of smart contract, can decide outcomes/add users etc.
 
-    struct Better {
+    struct Bettor {
         uint score;
         uint remaining_bets;
     }
@@ -17,7 +17,7 @@ contract PoolBet
         uint odd2;
     }
 
-    mapping (address => Better) public betters;
+    mapping (address => Bettor) public bettors;
 
     Match[] public matches;
 
@@ -26,7 +26,8 @@ contract PoolBet
     }
 
     function addMatch() {
-        
+        require msg.sender == owner;
+
     }
 
     function placeBet() {
