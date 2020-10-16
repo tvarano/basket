@@ -76,8 +76,9 @@ contract PoolBet
     function findWinner() {
         // iterate through users, find one with the most 
     }
+
+    function compareStrings(string memory a, string memory b) public view returns (bool) {
+        return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
+    }
 }
 
-function compareStrings(string memory a, string memory b) public view returns (bool) {
-    return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
-}
