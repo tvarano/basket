@@ -10,10 +10,12 @@ contract PoolBet
     }
 
     struct Match {
-        bytes32 team1;
+        string team1;
         uint odd1;
-        bytes32 team2;
+        string team2;
         uint odd2;
+        address[] bettor1;
+        address[] bettor2;
     }
 
     function genMatchHash(Match => m) {
@@ -21,7 +23,7 @@ contract PoolBet
     }
 
     // all betters in the game
-    mapping (address => Better) public betters;
+    mapping (address => Better) public bettors;
     // all of the matches for the week
     mapping (string => Match) public matches;
 
@@ -37,7 +39,18 @@ contract PoolBet
 
     }
 
-    function decideMatch
+    function decideMatch(string  matchid, string winner) {
+        if (winner == matches[matchid].team1) {
+            address[] win_arr = matches[matchid].bettor1;
+        } else {
+            address[]  win_arr = matches[matchid].bettor2;
+        }
+
+        uint arrayLength = win_arr.length;
+        for (uint i=0; i<arrayLength; i++) {
+            bettors[win_arr[i]].score ++;
+        }
+    }
 
 
 
