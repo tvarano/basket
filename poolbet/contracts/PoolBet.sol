@@ -4,7 +4,7 @@ contract PoolBet
 {
     address public owner; // Creator of smart contract, can decide outcomes/add users etc.
 
-    struct Better {
+    struct Bettor {
         string Name;
         uint score;
         uint remaining_bets; 
@@ -24,7 +24,7 @@ contract PoolBet
     }
 
     // all betters in the game
-    mapping (address => Better) public bettors;
+    mapping (address => Bettor) public bettors;
     // all of the matches for the week
     mapping (string => Match) public matches;
 
