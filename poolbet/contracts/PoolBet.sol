@@ -4,8 +4,8 @@ contract PoolBet
 {
     address public owner; // Creator of smart contract, can decide outcomes/add users etc.
 
-    struct Better {
-        string Name;
+    struct Bettor {
+        string name;
         uint score;
         uint remaining_bets; 
     }
@@ -24,7 +24,8 @@ contract PoolBet
     }
 
     // all betters in the game
-    mapping (address => Better) public bettors;
+    mapping (address => Bettor) public bettors;
+    address[] addresses;
     // all of the matches for the week
     mapping (string => Match) public matches;
 
@@ -32,16 +33,37 @@ contract PoolBet
         owner = msg.sender;
     }
 
+    function addBetter(address add, string nme) {
+        require (msg.sender == owner, "Only the owner can add pool members.");
+
+        addresses.push(add);
+        bettors[add] = {name: nme, score: 0, remaining_bets: 1}
+    }
+
     function addMatch(string json) {
+        require(msg.sender == owner, "Only owners can add matches.");
+
         parseMatch(json)
     }
 
     function placeBet(address bettor, string matchid, string team) {
-        
+        bettor = bettors[bettor]
+
+        current_match = matches[matchid]
+
+        if (compareStrings(team, current_match.team1)) {
+            current_match.bettor1.push(bettor)
+        } else if (compareStrings(team, current_match.team2)) {
+            current_match.bettor2.push(bettor)
+        } else {
+            revert("Invalid team.")
+        }
     }
 
     function decideMatch(string  matchid, string winner) {
-        if (winner == matches[matchid].team1) {
+        require(msg.sender == owner, "Only owner can decide matches.")
+
+        if (compareStrings(winner, matches[matchid].team1)) {
             address[] win_arr = matches[matchid].bettor1;
         } else {
             address[]  win_arr = matches[matchid].bettor2;
@@ -61,5 +83,22 @@ contract PoolBet
 
     function findWinner() {
         // iterate through users, find one with the most 
+        uint address_length = addresses.length;
+        address max_address;
+        uint max = 0;
+
+        for (uint i=0; i<address_length; i++) {
+            if (bettors[addresses[i]].max > max) {
+                max_address = addresses[i];
+                max = bettors[addresses[i]].score;
+            }
+        }
+
+        return max_address;
+    }
+
+    function compareStrings(string memory a, string memory b) public view returns (bool) {
+        return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
     }
 }
+
