@@ -5,7 +5,7 @@ contract PoolBet
     address public owner; // Creator of smart contract, can decide outcomes/add users etc.
 
     struct Bettor {
-        string Name;
+        string name;
         uint score;
         uint remaining_bets; 
     }
@@ -33,8 +33,15 @@ contract PoolBet
         owner = msg.sender;
     }
 
+    function addBetter(address add, string nme) {
+        require (msg.sender == owner, "Only the owner can add pool members.");
+
+        addresses.push(add);
+        bettors[add] = {name: nme, score: 0, remaining_bets: 1}
+    }
+
     function addMatch(string json) {
-        require(msg.sender == owner, "Only owners can add matches.")
+        require(msg.sender == owner, "Only owners can add matches.");
 
         parseMatch(json)
     }
