@@ -1,0 +1,12 @@
+// match
+{
+    "team1": "", 
+    "team2": "",
+    "odds1": 0, 
+    "odds2": 0
+}
+
+// deciding
+{
+    "winner": "teamname"
+}s
