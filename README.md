@@ -21,3 +21,9 @@ The wireframe mockup for the front-end can be found [here](https://github.com/tv
 AND THIS PART THANK YOU IDK WHAT IM DOING
 
 ALSO FILL IN EVERY TIME I SAID <company's> IDK WHAT COMPANY WE"RE USIG FOR THE INTEREST THING THANKS <3
+
+## Contributors
+[Luke Stuart](https://github.com/lucstu)
+[Thomas Varano](https://github.com/tvarano)
+[Thomas Giewont](https://github.com/tmgiewont)
+[Ritvik Jain](https://github.com/rtkjn)
