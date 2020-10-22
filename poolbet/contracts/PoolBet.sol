@@ -1,4 +1,4 @@
-pragma solidity ^0.7.3
+pragma solidity ^0.7.3;
 
 contract PoolBet
 {
@@ -19,9 +19,6 @@ contract PoolBet
         address[] bettor2;
     }
 
-    function genMatchHash(Match m) {
-        return string(abi.encodePacked(m.team1, m.team2))
-    }
 
     // all betters in the game
     mapping (address => Bettor) public bettors;
@@ -33,59 +30,64 @@ contract PoolBet
         owner = msg.sender;
     }
 
-    function addBetter(address add, string nme) {
+    function addBetter(address  add, string nme) public {
         require (msg.sender == owner, "Only the owner can add pool members.");
 
         addresses.push(add);
-        bettors[add] = {name: nme, score: 0, remaining_bets: 1}
+        bettors[add] = Bettor({name: nme, score: 0, remaining_bets: 1});
+    }
+    
+    function genMatchHash(Match memory m)  public {
+        return string(abi.encodePacked(m.team1, m.team2));
     }
 
-    function addMatch(string json) {
+    function addMatch(string memory json) public {
         require(msg.sender == owner, "Only owners can add matches.");
 
-        parseMatch(json)
+        // Owner adds match here
     }
 
-    function placeBet(string matchid, string team) {
-        bettor = msg.sender;
+    function placeBet(string memory matchid, string memory team) public {
+        address bettor = msg.sender;
 
-        current_match = matches[matchid]
+        Match current_match = matches[matchid];
 
-        if bettors[bettor] != address(0x0) {
+        if (bettors[bettor] != address(0x0)) {
             if (compareStrings(team, current_match.team1)) {
-            current_match.bettor1.push(bettor)
+                current_match.bettor1.push(bettor);
             } else if (compareStrings(team, current_match.team2)) {
-                current_match.bettor2.push(bettor)
+                current_match.bettor2.push(bettor);
             } else {
-                revert("Invalid team.")
+                revert("Invalid team.");
             }
         } else {
-            revert("This address is not a bettor.")
+            revert("This address is not a bettor.");
         }
     }
 
-    function decideMatch(string  matchid, string winner) {
-        require(msg.sender == owner, "Only owner can decide matches.")
+    function decideMatch(string matchid, string winner) public {
+        require(msg.sender == owner, "Only owner can decide matches.");
+        
+        address win_arr = [];
 
         if (compareStrings(winner, matches[matchid].team1)) {
-            address[] win_arr = matches[matchid].bettor1;
+            win_arr = matches[matchid].bettor1;
         } else {
-            address[]  win_arr = matches[matchid].bettor2;
+            win_arr = matches[matchid].bettor2;
         }
 
-        uint arrayLength = win_arr.length;
-        for (uint i=0; i<arrayLength; i++) {
+        for (uint i=0; i<win_arr.length; i++) {
             bettors[win_arr[i]].score ++;
         }
     }
 
-    function resetWeek() {
+    function resetWeek() public {
         // clear the hash
 
         // reset better remaining bets
     }
 
-    function findWinner() {
+    function findWinner() public {
         // iterate through users, find one with the most 
         uint address_length = addresses.length;
         address max_address;
