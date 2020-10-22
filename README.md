@@ -14,10 +14,6 @@ At the end of the time period, the user with the highest amount of units in thei
 
 This project is a proof of concept above all else, but could lead to an innovative venture if pursued to its fullest potential. 
 
-## Technical Specifications
-
-Unfortunately due to the fact that we were unable to fully finish the project, it is not functional at this point.
-
 The wireframe mockup for the front-end can be found [here](https://github.com/tvarano/pool-bet/blob/master/wireframe.pdf).
 
 ## Contributors
