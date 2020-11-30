@@ -21,7 +21,7 @@ contract Player {
     function cancelBet(matchId mid) public returns(bool) {
 
     }
-    if the bet exists and is within the cancel time (cancel up to day before)
+    //if the bet exists and is within the cancel time (cancel up to day before)
         
 
     // 
